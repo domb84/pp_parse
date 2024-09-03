@@ -11,7 +11,7 @@ config = {
     'author_email': 'fgiraffe@gmail.com',
     'version': '0.1',
     'install_requires': ['nose'],
-    'packages': ['NAME'],
+    'packages': ['pp_parse'],
     'scripts': [],
     'name': 'pp_parse'
 }
