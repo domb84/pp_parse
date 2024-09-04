@@ -8,7 +8,6 @@ authors = [
 dependencies = ["nose"]
 readme = "README.md"
 requires-python = ">=3.6"
-exclude = ["fcp_parse.py"]
 
 [project.urls]
 homepage = "https://github.com/fgiraffe/pp_parse"
@@ -18,3 +17,6 @@ download = "https://github.com/fgiraffe/pp_parse"
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+exclude-package-data = { "pp_parse" = ["fcp_parse.py"] }
