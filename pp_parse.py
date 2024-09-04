@@ -120,19 +120,18 @@ class SequenceHandler(xml.sax.ContentHandler):
         self.current_data = ""
         self.path = ""
         self.sequences_list = []
-
-        self.has_uid = False
+        self.uid = ""
         self.sequence_name = ""
 
     # Call when an element starts
     def startElement(self, tag, attributes):
         if tag == "Sequence":
-            if "ObjectUID" in attributes:
-                # if Sequence tag has a ObjectUID we are interested in it.
-                self.has_uid = True
-            else:
-                # this skips the bogus Media tags with ObjectURefs attached
-                pass
+            # if "ObjectUID" in attributes:
+            #     # if Sequence tag has a ObjectUID we are interested in it.
+            #     self.has_uid = True
+            # else:
+            #     # this skips the bogus Media tags with ObjectURefs attached
+            #     pass
             self.current_data = tag
         else:
             pass
@@ -144,11 +143,11 @@ class SequenceHandler(xml.sax.ContentHandler):
     # Call when a character is read
     def characters(self, content):
         if self.current_data == "Name":
-            # paths might contain escaped ampersands.
-            # so accumulate the path name in case it comes
-            # in multiple chunks
             self.sequence_name += content
-            self.sequences_list.append(self.sequence_name)
+        if self.current_data == "ObjectUID":
+            self.uid += content
+
+        self.sequences_list.append(self.sequence_name, self.uid)
 
 class TestHandler(xml.sax.ContentHandler):
     def startElement(self, name, attrs):
