@@ -121,22 +121,27 @@ class SequenceHandler(xml.sax.ContentHandler):
         self.sequences_list = []
         self.sequence_uid = ""
         self.sequence_name = ""
+        self.is_sequence = False
 
     # Call when an element starts
     def startElement(self, tag, attributes):
         if tag == "Sequence":
             print(tag)
             print(attributes)
+            if "ObjectUID" in attributes:
+                # if Media tag has a ObjectUID we are interested in it.
+                self.is_sequence = True
 
             # self.sequence_uid = attributes["ObjectUID"]
-            self.current_data = tag
         else:
             pass
+        self.current_data = tag
 
     # Call when an elements ends
     def endElement(self, name):
-        pass
-        # self.current_data = ""
+        if name == "Sequence" and self.is_sequence:
+            self.sequences_list.append(self.sequence_name)
+        self.sequence_name = ""
 
     # Call when a character is read
     def characters(self, content):
@@ -144,8 +149,6 @@ class SequenceHandler(xml.sax.ContentHandler):
             print("Hit it!")
             print(content)
             self.sequence_name += content
-        if self.sequence_name:
-            self.sequences_list.append({self.sequence_name})
 
 class TestHandler(xml.sax.ContentHandler):
     def startElement(self, name, attrs):
