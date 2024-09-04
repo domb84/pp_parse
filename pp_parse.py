@@ -128,7 +128,7 @@ class SequenceHandler(xml.sax.ContentHandler):
         if tag == "Sequence":
             if "ObjectUID" in attributes:
                 self.is_sequence = True
-                print(tag + attributes)
+                print(str(tag) + str(attributes))
         else:
             pass
         self.current_data = tag
@@ -138,7 +138,7 @@ class SequenceHandler(xml.sax.ContentHandler):
         if name == "Sequence" and self.is_sequence:
             print("Match!" + self.sequence_name)
             self.sequences_list.append(self.sequence_name)
-            
+
         self.sequence_name = ""
 
     # Call when a character is read
