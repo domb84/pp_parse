@@ -118,36 +118,30 @@ class SequenceHandler(xml.sax.ContentHandler):
     def __init__(self):
         xml.sax.ContentHandler.__init__(self)
         self.current_data = ""
-        self.path = ""
         self.sequences_list = []
-        self.uid = ""
+        self.sequence_uid = ""
         self.sequence_name = ""
 
     # Call when an element starts
     def startElement(self, tag, attributes):
         if tag == "Sequence":
-            # if "ObjectUID" in attributes:
-            #     # if Sequence tag has a ObjectUID we are interested in it.
-            #     self.has_uid = True
-            # else:
-            #     # this skips the bogus Media tags with ObjectURefs attached
-            #     pass
             self.current_data = tag
         else:
             pass
 
     # Call when an elements ends
     def endElement(self, name):
-        self.current_data = ""
+        pass
+        # self.current_data = ""
 
     # Call when a character is read
     def characters(self, content):
         if self.current_data == "Name":
             self.sequence_name += content
         if self.current_data == "ObjectUID":
-            self.uid += content
+            self.sequence_uid += content
 
-        self.sequences_list.append({self.sequence_name, self.uid})
+        self.sequences_list.append({self.sequence_name, self.sequence_uid})
 
 class TestHandler(xml.sax.ContentHandler):
     def startElement(self, name, attrs):
