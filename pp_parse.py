@@ -156,6 +156,7 @@ def print_media_paths(file_name, only_count=False,
     xml_parser.setContentHandler(handler)
 
     gz_file = gzip.open(file_name, 'r')
+    print(gz_file)
     xml_parser.parse(gz_file)
 
     # collect ALL filenames including dupes
