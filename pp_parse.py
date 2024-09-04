@@ -183,14 +183,9 @@ def return_decoded_file(file_name):
     # turn off namepsaces
     xml_parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 
-    # override the default ContextHandler
-    handler = MovieHandler()
-    xml_parser.setContentHandler(handler)
-
     gz_file = gzip.open(file_name, 'r')
-    xml_parser.parse(gz_file)
 
-    return handler
+    return xml_parser.parse(gz_file)
 
 
 def main_func():
