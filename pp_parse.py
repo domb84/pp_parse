@@ -145,8 +145,7 @@ class SequenceHandler(xml.sax.ContentHandler):
     def characters(self, content):
         if self.current_data == "Name":
             self.sequence_name += content
-        else:
-            print("No name")
+            print(content)
 
 class TestHandler(xml.sax.ContentHandler):
     def startElement(self, name, attrs):
