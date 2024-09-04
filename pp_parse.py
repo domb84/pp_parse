@@ -114,6 +114,40 @@ class MovieHandler(xml.sax.ContentHandler):
         if self.current_data == "IsProxy":
             self.proxy_value += content
 
+class SequenceHandler(xml.sax.ContentHandler):
+    def __init__(self):
+        xml.sax.ContentHandler.__init__(self)
+        self.current_data = ""
+        self.path = ""
+        self.sequences_list = []
+
+        self.has_uid = False
+        self.sequence_name = ""
+
+    # Call when an element starts
+    def startElement(self, tag, attributes):
+        if tag == "Sequence":
+            if "ObjectUID" in attributes:
+                # if Sequence tag has a ObjectUID we are interested in it.
+                self.has_uid = True
+            else:
+                # this skips the bogus Media tags with ObjectURefs attached
+                pass
+        self.current_data = tag
+
+    # Call when an elements ends
+    def endElement(self, name):
+        self.current_data = ""
+
+    # Call when a character is read
+    def characters(self, content):
+        if self.current_data == "Name":
+            # paths might contain escaped ampersands.
+            # so accumulate the path name in case it comes
+            # in multiple chunks
+            self.sequence_name += content
+            self.sequences_list.append(self.sequence_name)
+
 class TestHandler(xml.sax.ContentHandler):
     def startElement(self, name, attrs):
         print(f"Start element: {name}, attributes: {dict(attrs)}")
@@ -186,12 +220,42 @@ def print_media_paths(file_name, only_count=False,
 
     return sorted_list
 
+def print_sequences(file_name, only_count=False,):
+
+    # create an XMLReader
+    xml_parser = defusedxml.sax.make_parser()
+    # turn off namepsaces
+    xml_parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+
+    # override the default ContextHandler
+    handler = SequenceHandler()
+    xml_parser.setContentHandler(handler)
+
+    gz_file = gzip.open(file_name, 'r')
+    xml_parser.parse(gz_file)
+
+    # collect ALL filenames including dupes
+    # now filter the collection based on options passed in
+
+    sequences_list = handler.sequences_list
+
+    sorted_list = sorted(sequences_list)
+
+    if only_count is True:
+        print("Sequences count: ", len(sorted_list))
+    else:
+        for sequence in sorted_list:
+            print(sequence)
+
+    return sorted_list
+
 
 def dump_xml(file_name):
     gz_file = gzip.open(file_name, 'r')
     # Read the content
     content = gz_file.read()
     # Print the content
+    print(content)
     return content
 
 
