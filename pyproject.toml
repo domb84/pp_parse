@@ -5,7 +5,7 @@ description = "Premiere Pro Extract File Names"
 authors = [
     { name = "Frank Giraffe", email = "fgiraffe@gmail.com" }
 ]
-dependencies = ["nose"]
+dependencies = ["nose", "defusedxml"]
 readme = "README.md"
 requires-python = ">=3.6"
 
