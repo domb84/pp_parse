@@ -125,7 +125,10 @@ class SequenceHandler(xml.sax.ContentHandler):
     # Call when an element starts
     def startElement(self, tag, attributes):
         if tag == "Sequence":
-            self.sequence_uid = attributes["ObjectUID"]
+            print(tag)
+            print(attributes)
+
+            # self.sequence_uid = attributes["ObjectUID"]
             self.current_data = tag
         else:
             pass
@@ -141,8 +144,8 @@ class SequenceHandler(xml.sax.ContentHandler):
             print("Hit it!")
             print(content)
             self.sequence_name += content
-        if self.sequence_name and self.sequence_uid:
-            self.sequences_list.append({self.sequence_name, self.sequence_uid})
+        if self.sequence_name:
+            self.sequences_list.append({self.sequence_name})
 
 class TestHandler(xml.sax.ContentHandler):
     def startElement(self, name, attrs):
