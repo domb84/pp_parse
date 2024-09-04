@@ -131,17 +131,26 @@ class SequenceHandler(xml.sax.ContentHandler):
 
     # Call when an elements ends
     def endElement(self, name):
-        pass
-        # self.current_data = ""
+        self.current_data = ""
 
     # Call when a character is read
     def characters(self, content):
+        self.sequence_name = False
+        self.sequence_uid = False
         if self.current_data == "Name":
+            print("Hit it!")
+            print(content)
             self.sequence_name += content
+            if content.lenth > 0:
+                self.sequence_uid += content
         if self.current_data == "ObjectUID":
-            self.sequence_uid += content
+            print("Hit it!")
+            print(content)
+            if content.lenth > 0:
+                self.sequence_uid += content
 
-        self.sequences_list.append({self.sequence_name, self.sequence_uid})
+        if self.sequence_name and self.sequence_uid:
+            self.sequences_list.append({self.sequence_name, self.sequence_uid})
 
 class TestHandler(xml.sax.ContentHandler):
     def startElement(self, name, attrs):
