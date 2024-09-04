@@ -131,7 +131,8 @@ class SequenceHandler(xml.sax.ContentHandler):
 
     # Call when an elements ends
     def endElement(self, name):
-        self.current_data = ""
+        pass
+        # self.current_data = ""
 
     # Call when a character is read
     def characters(self, content):
