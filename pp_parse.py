@@ -114,6 +114,17 @@ class MovieHandler(xml.sax.ContentHandler):
         if self.current_data == "IsProxy":
             self.proxy_value += content
 
+class TestHandler(xml.sax.ContentHandler):
+    def startElement(self, name, attrs):
+        print(f"Start element: {name}, attributes: {dict(attrs)}")
+    
+    def endElement(self, name):
+        print(f"End element: {name}")
+    
+    def characters(self, content):
+        if content.strip():  # ignoring whitespace
+            print(f"Characters: {content.strip()}")
+
 
 def print_media_paths(file_name, only_count=False,
                       leaf_pathnames=False,
@@ -183,9 +194,12 @@ def return_decoded_file(file_name):
     # turn off namepsaces
     xml_parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 
-    gz_file = gzip.open(file_name, 'r')
+    # override the default ContextHandler
+    handler = TestHandler()
+    xml_parser.setContentHandler(handler)
 
-    return xml_parser.parse(gz_file)
+    gz_file = gzip.open(file_name, 'r')
+    xml_parser.parse(gz_file)
 
 
 def main_func():
