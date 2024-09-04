@@ -1,7 +1,3 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "pp_parse"
 version = "0.1"
@@ -9,8 +5,15 @@ description = "Premiere Pro Extract File Names"
 authors = [
     { name = "Frank Giraffe", email = "fgiraffe@gmail.com" }
 ]
-urls = { "Homepage" = "https://github.com/fgiraffe/pp_parse" }
 dependencies = ["nose"]
+readme = "README.md"
+requires-python = ">=3.6"
 
-[tool.setuptools.packages.find]
-where = ["pp_parse"]
+[project.urls]
+homepage = "https://github.com/fgiraffe/pp_parse"
+repository = "https://github.com/fgiraffe/pp_parse"
+download = "https://github.com/fgiraffe/pp_parse"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
