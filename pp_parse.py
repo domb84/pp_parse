@@ -199,13 +199,12 @@ def return_decoded_file(file_name):
     xml_parser.setContentHandler(handler)
 
     gz_file = gzip.open(file_name, 'r')
-    xml_parser.parse(gz_file)
-
     # Read the content
     content = gz_file.read()
     # Print the content
     print(content)
-
+    # parse the content
+    xml_parser.parse(gz_file)
 
 def main_func():
     """ Main extry point from the command line.
