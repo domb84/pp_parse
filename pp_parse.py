@@ -133,7 +133,9 @@ class SequenceHandler(xml.sax.ContentHandler):
             else:
                 # this skips the bogus Media tags with ObjectURefs attached
                 pass
-        self.current_data = tag
+            self.current_data = tag
+        else:
+            pass
 
     # Call when an elements ends
     def endElement(self, name):
