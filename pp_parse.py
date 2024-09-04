@@ -176,6 +176,23 @@ def print_media_paths(file_name, only_count=False,
     return sorted_list
 
 
+def return_decoded_file(file_name):
+
+    # create an XMLReader
+    xml_parser = defusedxml.sax.make_parser()
+    # turn off namepsaces
+    xml_parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+
+    # override the default ContextHandler
+    handler = MovieHandler()
+    xml_parser.setContentHandler(handler)
+
+    gz_file = gzip.open(file_name, 'r')
+    xml_parser.parse(gz_file)
+
+    return handler
+
+
 def main_func():
     """ Main extry point from the command line.
     """
