@@ -187,8 +187,15 @@ def print_media_paths(file_name, only_count=False,
     return sorted_list
 
 
-def return_decoded_file(file_name):
+def dump_xml(file_name):
+    gz_file = gzip.open(file_name, 'r')
+    # Read the content
+    content = gz_file.read()
+    # Print the content
+    return content
 
+
+def return_decoded_file(file_name):
     # create an XMLReader
     xml_parser = defusedxml.sax.make_parser()
     # turn off namepsaces
@@ -199,12 +206,9 @@ def return_decoded_file(file_name):
     xml_parser.setContentHandler(handler)
 
     gz_file = gzip.open(file_name, 'r')
-    # Read the content
-    content = gz_file.read()
-    # Print the content
-    print(content)
     # parse the content
-    xml_parser.parse(gz_file)
+    return xml_parser.parse(gz_file)
+
 
 def main_func():
     """ Main extry point from the command line.
