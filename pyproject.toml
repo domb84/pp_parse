@@ -8,6 +8,7 @@ authors = [
 dependencies = ["nose"]
 readme = "README.md"
 requires-python = ">=3.6"
+exclude = ["fcp_parse.py"]
 
 [project.urls]
 homepage = "https://github.com/fgiraffe/pp_parse"
