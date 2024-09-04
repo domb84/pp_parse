@@ -147,7 +147,7 @@ class SequenceHandler(xml.sax.ContentHandler):
         if self.current_data == "ObjectUID":
             self.uid += content
 
-        self.sequences_list.append(self.sequence_name, self.uid)
+        self.sequences_list.append({self.sequence_name, self.uid})
 
 class TestHandler(xml.sax.ContentHandler):
     def startElement(self, name, attrs):
