@@ -1,0 +1,23 @@
+[project]
+name = "pp_parse"
+version = "0.2"
+description = "Premiere Pro Extract File Names"
+authors = [
+    { name = "Frank Giraffe", email = "fgiraffe@gmail.com" }
+]
+dependencies = ["nose", "defusedxml"]
+readme = "README.md"
+requires-python = ">=3.6"
+
+[project.urls]
+homepage = "https://github.com/fgiraffe/pp_parse"
+repository = "https://github.com/fgiraffe/pp_parse"
+download = "https://github.com/fgiraffe/pp_parse"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# Explicitly include only the 'pp_parse' module
+py-modules = ["pp_parse"]

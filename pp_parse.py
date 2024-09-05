@@ -114,6 +114,50 @@ class MovieHandler(xml.sax.ContentHandler):
         if self.current_data == "IsProxy":
             self.proxy_value += content
 
+class SequenceHandler(xml.sax.ContentHandler):
+    def __init__(self):
+        xml.sax.ContentHandler.__init__(self)
+        self.current_data = ""
+        self.sequences_list = []
+        self.sequence_uid = ""
+        self.sequence_name = ""
+        self.is_sequence = False
+
+    # Call when an element starts
+    def startElement(self, tag, attributes):
+        if tag == "Sequence":
+            if "ObjectUID" in attributes:
+                self.is_sequence = True
+                self.sequence_uid = attributes["ObjectUID"]
+        else:
+            pass
+        self.current_data = tag
+
+    # Call when an elements ends
+    def endElement(self, name):
+        if name == "Sequence" and self.is_sequence:
+            self.sequences_list.append({"Sequence": self.sequence_name, "UID": self.sequence_uid})
+            self.is_sequence = False
+            self.sequence_name = ""
+            self.sequence_uid = ""
+        self.current_data = ""
+
+    # Call when a character is read
+    def characters(self, content):
+        if self.current_data == "Name":
+            self.sequence_name = content
+
+class TestHandler(xml.sax.ContentHandler):
+    def startElement(self, name, attrs):
+        print(f"Start element: {name}, attributes: {dict(attrs)}")
+    
+    def endElement(self, name):
+        print(f"End element: {name}")
+    
+    def characters(self, content):
+        if content.strip():  # ignoring whitespace
+            print(f"Characters: {content.strip()}")
+
 
 def print_media_paths(file_name, only_count=False,
                       leaf_pathnames=False,
@@ -174,6 +218,59 @@ def print_media_paths(file_name, only_count=False,
             print(media_ref)
 
     return sorted_list
+
+def print_sequences(file_name, only_count=False,):
+
+    # create an XMLReader
+    xml_parser = defusedxml.sax.make_parser()
+    # turn off namepsaces
+    xml_parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+
+    # override the default ContextHandler
+    handler = SequenceHandler()
+    xml_parser.setContentHandler(handler)
+
+    gz_file = gzip.open(file_name, 'r')
+    xml_parser.parse(gz_file)
+
+    # collect ALL filenames including dupes
+    # now filter the collection based on options passed in
+
+    sequences_list = handler.sequences_list
+
+    sorted_list = sorted(sequences_list, key=lambda x: x['Sequence'])
+
+    if only_count is True:
+        print("Sequences count: ", len(sorted_list))
+    else:
+        for sequence in sorted_list:
+            print(sequence)
+
+    return sorted_list
+
+
+def dump_xml(file_name):
+    gz_file = gzip.open(file_name, 'r')
+    # Read the content
+    content = gz_file.read()
+    # Print the content
+    print(content)
+    return content
+
+
+def return_decoded_file(file_name):
+    # create an XMLReader
+    xml_parser = defusedxml.sax.make_parser()
+    # turn off namepsaces
+    xml_parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+
+    # override the default ContextHandler
+    handler = TestHandler()
+    xml_parser.setContentHandler(handler)
+
+    gz_file = gzip.open(file_name, 'r')
+    # parse the content
+    return xml_parser.parse(gz_file)
 
 
 def main_func():
