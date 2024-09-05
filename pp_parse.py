@@ -239,7 +239,7 @@ def print_sequences(file_name, only_count=False,):
 
     sequences_list = handler.sequences_list
 
-    sorted_list = sorted(sequences_list)
+    sorted_list = sorted(sequences_list, key=lambda x: x['Sequence'])
 
     if only_count is True:
         print("Sequences count: ", len(sorted_list))
