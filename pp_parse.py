@@ -149,9 +149,8 @@ class SequenceHandler(xml.sax.ContentHandler):
     # Call when a character is read
     def characters(self, content):
         if self.current_data == "Name":
-            print("This matches Name: " + str(self.current_data) )
-            self.sequence_name = self.current_data
-            print(content)
+            print("This matches Name: " + str(self.current_data) + str(content))
+            self.sequence_name = content
 
 class TestHandler(xml.sax.ContentHandler):
     def startElement(self, name, attrs):
