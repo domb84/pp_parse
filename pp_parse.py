@@ -136,7 +136,6 @@ class SequenceHandler(xml.sax.ContentHandler):
     # Call when an elements ends
     def endElement(self, name):
         if name == "Sequence" and self.is_sequence:
-            # print("Sequence name: " + str(self.sequence_name))
             self.sequences_list.append({"Sequence": self.sequence_name, "UID": self.sequence_uid})
             self.is_sequence = False
             self.sequence_name = ""

@@ -1,6 +1,6 @@
 [project]
 name = "pp_parse"
-version = "0.1"
+version = "0.2"
 description = "Premiere Pro Extract File Names"
 authors = [
     { name = "Frank Giraffe", email = "fgiraffe@gmail.com" }
